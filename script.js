@@ -18,27 +18,36 @@ function operate(operand1, operand2, operator){
         return;
     }
 
+    let result;
     switch(operator){
         case '+':
-            return operand1 + operand2;
+            result = operand1 + operand2;
             break;
 
         case '-':
-            return operand1 - operand2;
+            result = operand1 - operand2;
             break;
 
         case '*':
-            return operand1 * operand2;
+            result = operand1 * operand2;
             break;
 
         case '/':
             //if overflowing screen, round off
             if((operand1/operand2).toString().length > 10){
-                return (operand1/operand2).toFixed(10);
+                result = (operand1/operand2).toFixed(10);
             }
-            return operand1/operand2;
+            else{
+                result = operand1/operand2;
+            }
             break;
     }
+
+    if(result.toString().length > 14){
+        result = result.toExponential(5);
+    }
+
+    return result;
 }
 
 let operand1 = null;
