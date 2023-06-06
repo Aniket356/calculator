@@ -9,15 +9,14 @@ function populate(num) {
 }
 
 function operate(operand1, operand2, operator){
-
+    //convert strings to numbers
     operand1 = parseFloat(operand1);
     operand2 = parseFloat(operand2);
 
     if(operator === '/' && operand2 === 0){
-        return "HAHAHA"
+        alert("Division by zero not possible!");
+        return;
     }
-
-    console.log(`operand1: ${operand1}; operand2: ${operand2}; operator: ${operator}`);
 
     switch(operator){
         case '+':
@@ -33,6 +32,7 @@ function operate(operand1, operand2, operator){
             break;
 
         case '/':
+            //if overflowing screen, round off
             if((operand1/operand2).toString().length > 10){
                 return (operand1/operand2).toFixed(10);
             }
@@ -44,18 +44,20 @@ function operate(operand1, operand2, operator){
 let operand1 = null;
 let operand2 = null;
 let operator = null;
+let removeNumberFromDisplay = false;
 
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(btn => {
     btn.addEventListener('click', (event) => {
         if(display.textContent.length > 14) return;
 
-        if(operator !== null){
+        if(removeNumberFromDisplay){
             display.textContent = '';
         }
 
         const btnText = event.target.textContent;
         populate(btnText);
+        removeNumberFromDisplay = false;
     })
 })
 
@@ -73,6 +75,7 @@ decimalButton.addEventListener('click', (event) => {
 const operators = document.querySelectorAll('.operator');
 operators.forEach(operator_btn => {
     operator_btn.addEventListener('click', (event) => {
+        removeNumberFromDisplay = true;
         if(operand1){
             operand2 = display.textContent;
             const result = operate(operand1, operand2, operator);
@@ -97,6 +100,7 @@ equals.addEventListener('click', () => {
         operand1 = null;
         operand2 = null;
         operator = null;
+        removeNumberFromDisplay = true;
     }
 })
 
