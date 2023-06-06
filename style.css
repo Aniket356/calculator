@@ -62,8 +62,12 @@ body {
     background-color: #fab8ad ;
 }
 
-#clear, #delete {
-    flex-basis: 45%;
+#clear {
+    flex-basis: 42%;
+    background-color: #48BEFF;
+}
+
+#delete {
     background-color: #48BEFF;
 }
 

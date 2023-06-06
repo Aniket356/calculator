@@ -107,6 +107,17 @@ operators.forEach(operator_btn => {
     })
 })
 
+const plusMinus = document.querySelector('#plus-minus');
+plusMinus.addEventListener('click', () => {
+    if(display.textContent === '0') return;
+    if(display.textContent[0] === '-'){
+        display.textContent = display.textContent.slice(1);
+    }
+    else{
+        display.textContent = `-${display.textContent}`;
+    }
+})
+
 const equals = document.querySelector('#equals');
 equals.addEventListener('click', () => {
     if(operand1 !== null && operator !== null){
