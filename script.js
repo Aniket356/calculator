@@ -1,5 +1,6 @@
-const display = document.querySelector("#display");
+const display = document.querySelector("#display"); //this is the display of the calculator
 
+//this function populates the display with a digit or a decimal
 function populate(num) {
     if(display.textContent === '0'){
         display.textContent = num;
@@ -8,6 +9,7 @@ function populate(num) {
     display.textContent = display.textContent + num;
 }
 
+//take the two operands and depending on the operator, return the result
 function operate(operand1, operand2, operator){
     //convert strings to numbers
     operand1 = parseFloat(operand1);
@@ -43,6 +45,7 @@ function operate(operand1, operand2, operator){
             break;
     }
 
+    //convert result to exponential form if overflowing display
     if(result.toString().length > 14){
         result = result.toExponential(5);
     }
@@ -53,7 +56,7 @@ function operate(operand1, operand2, operator){
 let operand1 = null;
 let operand2 = null;
 let operator = null;
-let removeNumberFromDisplay = false;
+let removeNumberFromDisplay = false; //this variable tells if the number in the display has to be removed when the next number is clicked
 
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(btn => {
@@ -66,7 +69,7 @@ numberButtons.forEach(btn => {
 
         const btnText = event.target.textContent;
         populate(btnText);
-        removeNumberFromDisplay = false;
+        removeNumberFromDisplay = false; //once the digit is added,change the flag to false
     })
 })
 
@@ -75,7 +78,9 @@ decimalButton.addEventListener('click', (event) => {
     if(display.textContent === '0'){
         display.textContent = '0.';
     }
-    if(!display.textContent.includes('.') && display.textContent.length < 14 && display.textContent.length >= 1) {
+
+    //there can't be two decimals in a number
+    else if(!display.textContent.includes('.') && display.textContent.length < 14 && display.textContent.length >= 1) {
         populate('.');
     }
 })
@@ -84,12 +89,14 @@ decimalButton.addEventListener('click', (event) => {
 const operators = document.querySelectorAll('.operator');
 operators.forEach(operator_btn => {
     operator_btn.addEventListener('click', (event) => {
-        removeNumberFromDisplay = true;
-        if(operand1){
+        removeNumberFromDisplay = true; //once operator is clicked the number in the display has to be removed
+
+        //there should be an operand to work upon
+        if(operand1 && operand1 !== undefined){
             operand2 = display.textContent;
             const result = operate(operand1, operand2, operator);
             display.textContent = result;
-            operand1 = result;
+            operand1 = result; //take the result of the calculation and use it as an operand for the next operation
             operand2 = null;
             operator = event.target.textContent;
         }
@@ -109,11 +116,10 @@ equals.addEventListener('click', () => {
         operand1 = null;
         operand2 = null;
         operator = null;
-        removeNumberFromDisplay = true;
+        removeNumberFromDisplay = true; //number in the display has to be removed after a number is clicked now
     }
 })
 
-//the clear and delete buttons
 const clearBtn = document.querySelector('#clear');
 clearBtn.addEventListener('click', () => {
     display.textContent = '0';
@@ -128,4 +134,5 @@ deleteBtn.addEventListener('click', () => {
     if(display.textContent.length === 0 || display.textContent === '-'){
         display.textContent = '0';
     }
+    removeNumberFromDisplay = false; //if delete is clicked do not remove the number from display
 })
