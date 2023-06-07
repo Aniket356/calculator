@@ -58,6 +58,18 @@ let operand2 = null;
 let operator = null;
 let removeNumberFromDisplay = false; //this variable tells if the number in the display has to be removed when the next number is clicked
 
+window.addEventListener('keydown', event => {
+    const key = document.querySelector(`[data-code="${event.code}"].number`);
+    if(!key || display.textContent.length > 14) return;
+
+    if(removeNumberFromDisplay){
+        display.textContent = '';
+    }
+
+    populate(key.textContent);
+    removeNumberFromDisplay = false;
+})
+
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(btn => {
     btn.addEventListener('click', (event) => {
